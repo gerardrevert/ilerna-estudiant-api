@@ -22,8 +22,12 @@ class CrearEstudiant extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+    return [
+        'nom' => ['required', 'string', 'min:5', 'max:59'],
+        'email' => ['required', 'email', 'unique:estudiants,email'],
+        'telefon' => ['required', 'string', 'max:20'],
+        'adreca' => ['nullable', 'string', 'max:255'],
+        'numero_document_identitat' => ['nullable', 'string', 'max:50', 'unique:estudiants,numero_document_identitat'],
+    ];
     }
 }
