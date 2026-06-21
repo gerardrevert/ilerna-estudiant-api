@@ -16,11 +16,11 @@ class EstudiantFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => fake()->name(),
+            'nom' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'telefono' => fake()->phoneNumber(),
-            'direccion' => fake()->optional()->address(),
-            'numero_documento_identidad' => fake()->optional()->bothify('########?'),
+            'telefon' => fake()->phoneNumber(),
+            'adreca' => fake()->optional()->address(),
+            'numero_document_identitat' => fake()->optional()->bothify('########?'),
         ];
     }
 }
