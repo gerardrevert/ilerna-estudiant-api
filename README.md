@@ -6,6 +6,30 @@
 
 ---
 
+Controladors acabats
+
+---
+
+Els primers testos de la api ja funcionen
+
+docker-compose exec app php artisan test
+
+   PASS  Tests\Unit\ExampleTest
+  ✓ that true is true
+
+   PASS  Tests\Feature\EstudiantApiTest
+  ✓ llistar tots els estudiants                                                                                    0.24s  
+  ✓ llistar usuaris quan esta vuit                                                                                 0.01s  
+  ✓ crear estudiant amb dades valides                                                                              0.02s  
+
+   PASS  Tests\Feature\ExampleTest
+  ✓ the application returns a successful response                                                                  0.02s  
+
+  Tests:    5 passed (48 assertions)
+  Duration: 0.46s
+
+---
+
 He tingut un petit inconvenient amb la cache de OPcache amb docker i he reiniciat el contenidor ja torna a funcionar i la api ara dona resposta correcta al crear un estudiant ara ja puc continuar amb les altres funcions del controlador
 
 {

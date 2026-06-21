@@ -14,7 +14,8 @@ use Illuminate\Http\JsonResponse;
 class EstudiantController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Llistar tots els estudiants
+     * GET /api/estudiants
      */
     public function index(): JsonResponse
     {
@@ -28,7 +29,8 @@ class EstudiantController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crear un nou estudiant
+     * POST /api/estudiants
      */
     public function store(CrearEstudiant $request): JsonResponse
     {
@@ -42,7 +44,8 @@ class EstudiantController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Mostrar un estudiant especific
+     * GET /api/estudiants/{estudiantID}
      */
     public function show(int $estudiant): JsonResponse
     {
@@ -56,24 +59,53 @@ class EstudiantController extends Controller
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Estudiant no trobat.',
+                'message' => 'Estudiant no trobat',
             ], 404);
         }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualitzar un estudiant existent per ID
+     * PUT /api/estudiants/{estudiantID}
      */
-    public function update(Request $request, string $id)
+    public function update(ActualitzarEstudiant $request, int $estudiantID): JsonResponse
     {
-        //
+        try {
+            $estudiant = Estudiant::findOrFail($estudiantID);
+            $estudiant->update($request->validated());
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Estudiant actualitzat correctament',
+                'data' => $estudiant->fresh(),
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Estudiant no trobat',
+            ], 404);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar un estudiant per ID
+     * DELETE /api/estudiants/{estudiantID}
      */
-    public function destroy(string $id)
+    public function destroy(int $estudiantID): JsonResponse
     {
-        //
+        try {
+            $estudiant = Estudiant::findOrFail($estudiantID);
+            $estudiant->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Estudiant eliminat correctament'
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Estudiant no trobat.',
+            ], 404);
+        }
     }
 }
