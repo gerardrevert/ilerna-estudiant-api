@@ -9,7 +9,7 @@ use App\Http\Requests\ActualitzarEstudiant;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Psy\Util\Json;
+
 
 class EstudiantController extends Controller
 {

@@ -4,6 +4,27 @@
 
 /-/-/-/-/-/CHANGELOG/-/-/-/-/-/
 
+---
+
+He tingut un petit inconvenient amb la cache de OPcache amb docker i he reiniciat el contenidor ja torna a funcionar i la api ara dona resposta correcta al crear un estudiant ara ja puc continuar amb les altres funcions del controlador
+
+{
+  "success": true,
+  "message": "Estudiant creat correctament",
+  "data": {
+    "nom": "gerard",
+    "email": "gerard@ilerna.coim",
+    "telefon": "690203376",
+    "updated_at": "2026-06-21T22:57:59.000000Z",
+    "created_at": "2026-06-21T22:57:59.000000Z",
+    "id": 2
+  }
+}
+
+---
+
+He fet les primeres funcions del controlador i tambe el primer endpoint de prova health a /api/health
+tambe he fet el migrate per continuar amb les proves de crear estudiants 
 
 ---
 
