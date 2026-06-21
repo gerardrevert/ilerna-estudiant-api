@@ -4,6 +4,11 @@
 
 /-/-/-/-/-/CHANGELOG/-/-/-/-/-/
 
+
+---
+
+He implementat el esquema de la taula estudiants a les migracions i he configurat el model estudiant, tambe el factory per estudiants de prova i les seves validacions 
+
 ---
 
 He creat el Model i migracions de estudiant php artisan 
