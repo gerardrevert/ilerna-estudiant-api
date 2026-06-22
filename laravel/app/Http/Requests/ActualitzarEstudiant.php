@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
+use App\Rules\DniNie;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ActualitzarEstudiant extends FormRequest
 {
@@ -27,10 +29,22 @@ class ActualitzarEstudiant extends FormRequest
 
         return [
             'nom' => ['sometimes', 'required', 'string', 'min:5', 'max:59'],
-            'email' => ['sometimes','required', 'email', 'max:255', Rule::unique('estudiants', 'email')->ignore($id)],
-            'telefon' => ['sometimes', 'required' ,'string', 'max:20'],
+            'email' => ['sometimes', 'required', 'email', 'max:255', Rule::unique('estudiants', 'email')->ignore($id)],
+            'telefon' => ['sometimes', 'required', 'string', 'regex:/^[6789]\d{8}$/'],
             'adreca' => ['nullable', 'string', 'max:255'],
-            'numero_document_identitat' => ['nullable', 'string', 'max:50', Rule::unique('estudiants', 'numero_document_identitat')->ignore($id)],
+            'numero_document_identitat' => ['nullable', 'string', 'max:20', Rule::unique('estudiants', 'numero_document_identitat')->ignore($id), new DniNie],
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'telefon.regex' => 'El telèfon ha de ser un número espanyol de 9 dígits.',
         ];
     }
 }
