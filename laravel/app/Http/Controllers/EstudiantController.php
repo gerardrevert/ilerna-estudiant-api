@@ -141,9 +141,44 @@ class EstudiantController extends Controller
     }
 
     /**
-     * Actualitzar un estudiant existent per ID
-     * PUT /api/estudiants/{estudiantID}
+     * Actualitzar un estudiant existent.
      */
+    #[OA\Put(
+        path: '/estudiants/{id}',
+        operationId: 'actualitzarEstudiant',
+        tags: ['Estudiants'],
+        summary: 'Actualitzar un estudiant',
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, description: 'ID de l\'estudiant', schema: new OA\Schema(type: 'integer')),
+        ],
+        requestBody: new OA\RequestBody(
+            required: false,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(property: 'nom', type: 'string', minLength: 5, maxLength: 59, example: 'Nom Actualitzat'),
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'actualitzat@ilerna.com'),
+                    new OA\Property(property: 'telefon', type: 'string', example: '690203376'),
+                    new OA\Property(property: 'adreca', type: 'string', nullable: true, example: 'Carrer Nou 456'),
+                    new OA\Property(property: 'numero_document_identitat', type: 'string', nullable: true, example: '87654321X'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Estudiant actualitzat',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Estudiant actualitzat correctament'),
+                        new OA\Property(property: 'data', ref: '#/components/schemas/Estudiant'),
+                    ]
+                )
+            ),
+            new OA\Response(response: 404, description: 'Estudiant no trobat'),
+            new OA\Response(response: 422, description: 'Error de validació'),
+        ]
+    )]
     public function update(ActualitzarEstudiant $request, Estudiant $estudiant): JsonResponse
     {
         $estudiant->update($request->validated());
@@ -156,8 +191,29 @@ class EstudiantController extends Controller
 
     /**
      * Eliminar un estudiant (soft delete).
-     * DELETE /api/estudiants/{estudiant}
      */
+    #[OA\Delete(
+        path: '/estudiants/{id}',
+        operationId: 'eliminarEstudiant',
+        tags: ['Estudiants'],
+        summary: 'Eliminar un estudiant',
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, description: 'ID de l\'estudiant', schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Estudiant eliminat',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Estudiant eliminat correctament'),
+                    ]
+                )
+            ),
+            new OA\Response(response: 404, description: 'Estudiant no trobat'),
+        ]
+    )]
     public function destroy(Estudiant $estudiant): JsonResponse
     {
         $estudiant->delete();
