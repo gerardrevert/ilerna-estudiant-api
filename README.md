@@ -1,6 +1,6 @@
 # API d'Estudiants — Prova tècnica iLERNA
 
-![Tests](https://github.com/gerardrevert/ilerna-estudiant-api/actions/workflows/tests.yml/badge.svg)
+![Tests](https://github.com/gerardrevert/ilerna-estudiant-api/actions/workflows/tests.yml)
 
 API REST desenvolupada amb Laravel per gestionar un CRUD d'estudiants. Inclou validacions, paginació, soft deletes, tests d'integració, documentació OpenAPI/Swagger i un pipeline de CI/CD amb GitHub Actions.
 
