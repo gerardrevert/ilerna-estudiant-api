@@ -9,7 +9,6 @@ use App\Models\Estudiant;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
-
 class EstudiantController extends Controller
 {
     use ApiResponse;
@@ -27,7 +26,7 @@ class EstudiantController extends Controller
             '',
             200,
             [
-            'count' => $estudiants->count(),
+                'count' => $estudiants->count(),
                 'meta' => [
                     'current_page' => $estudiants->currentPage(),
                     'last_page' => $estudiants->lastPage(),
@@ -68,7 +67,7 @@ class EstudiantController extends Controller
      */
     public function update(ActualitzarEstudiant $request, Estudiant $estudiant): JsonResponse
     {
-            $estudiant->update($request->validated());
+        $estudiant->update($request->validated());
 
         return $this->successResponse(
             new EstudiantResource($estudiant->fresh()),
@@ -82,7 +81,7 @@ class EstudiantController extends Controller
      */
     public function destroy(Estudiant $estudiant): JsonResponse
     {
-            $estudiant->delete();
+        $estudiant->delete();
 
         return $this->successResponse(null, 'Estudiant eliminat correctament');
     }

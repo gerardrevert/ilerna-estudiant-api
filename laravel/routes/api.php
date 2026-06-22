@@ -3,7 +3,6 @@
 use App\Http\Controllers\EstudiantController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/health', function () {
     return response()->json(['success' => true, 'message' => 'API iLERNA estudiants funciona correctament']);
 });

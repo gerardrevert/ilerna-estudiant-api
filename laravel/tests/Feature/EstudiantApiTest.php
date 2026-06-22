@@ -9,7 +9,6 @@ use Tests\TestCase;
 
 class EstudiantApiTest extends TestCase
 {
-
     use RefreshDatabase;
     // ==========================================
     // GET /api/estudiants - Listar estudiants
@@ -26,13 +25,12 @@ class EstudiantApiTest extends TestCase
             ->assertJsonStructure([
                 'success',
                 'data' => [
-                    '*' => ['id', 'nom', 'email', 'telefon', 'adreca', 'numero_document_identitat', 'created_at', 'updated_at']
+                    '*' => ['id', 'nom', 'email', 'telefon', 'adreca', 'numero_document_identitat', 'created_at', 'updated_at'],
                 ],
                 'count',
             ])
             ->assertJson(['success' => true, 'count' => 3]);
     }
-
 
     #[Test]
     public function llistar_usuaris_quan_esta_vuit(): void

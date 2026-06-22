@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class EstudiantFactory extends Factory
 {
-
     protected $model = Estudiant::class;
 
     public function definition(): array
