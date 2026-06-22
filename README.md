@@ -46,14 +46,14 @@ make test
 
 ## Endpoints principals
 
-| Mètode  |          URL            |           Descripció        |
-|---------|-------------------------|-----------------------------|
-| GET     | `/api/estudiants`       | Llistar tots els estudiants |
-| POST    | `/api/estudiants`       | Crear un estudiant          |
-| GET     | `/api/estudiants/{id}`  | Veure un estudiant          |
-| PUT     | `/api/estudiants/{id}`  | Actualitzar un estudiant    |
-| DELETE  | `/api/estudiants/{id}`  | Eliminar un estudiant       |
-| GET     | `/api/health`           | Endpoint de prova           |
+| Mètode | URL | Descripció |
+|--------|-----|------------|
+| GET | `/api/estudiants` | Llistar estudiants (paginat) |
+| POST | `/api/estudiants` | Crear un estudiant |
+| GET | `/api/estudiants/{id}` | Veure un estudiant |
+| PUT | `/api/estudiants/{id}` | Actualitzar un estudiant |
+| DELETE | `/api/estudiants/{id}` | Eliminar un estudiant (soft delete) |
+| GET | `/api/health` | Health check |
 
 ## Proves ràpides amb curl
 
