@@ -2,30 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Estudiant;
-use App\Http\Requests\CrearEstudiant;
 use App\Http\Requests\ActualitzarEstudiant;
-
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Requests\CrearEstudiant;
+use App\Http\Resources\EstudiantResource;
+use App\Models\Estudiant;
+use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 
 
 class EstudiantController extends Controller
 {
+    use ApiResponse;
+
     /**
-     * Llistar tots els estudiants
+     * Llistar tots els estudiants (paginats).
      * GET /api/estudiants
      */
     public function index(): JsonResponse
     {
-        $estudiants = Estudiant::all();
+        $estudiants = Estudiant::paginate(20);
 
-        return response()->json([
-            'success' => true,
-            'data' => $estudiants,
+        return $this->successResponse(
+            EstudiantResource::collection($estudiants->items()),
+            '',
+            200,
+            [
             'count' => $estudiants->count(),
-        ]);
+                'meta' => [
+                    'current_page' => $estudiants->currentPage(),
+                    'last_page' => $estudiants->lastPage(),
+                    'per_page' => $estudiants->perPage(),
+                    'total' => $estudiants->total(),
+                ],
+            ]
+        );
     }
 
     /**
@@ -36,11 +46,11 @@ class EstudiantController extends Controller
     {
         $estudiant = Estudiant::create($request->validated());
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Estudiant creat correctament',
-            'data' => $estudiant,
-        ], 201 );
+        return $this->successResponse(
+            new EstudiantResource($estudiant),
+            'Estudiant creat correctament',
+            201
+        );
     }
 
     /**
@@ -49,12 +59,7 @@ class EstudiantController extends Controller
      */
     public function show(Estudiant $estudiant): JsonResponse
     {
-            $estudiant = Estudiant::findOrFail($estudiant);
-
-            return response()->json([
-                'success' => true,
-                'data' => $estudiant,
-            ]);
+        return $this->successResponse(new EstudiantResource($estudiant));
     }
 
     /**
@@ -63,29 +68,22 @@ class EstudiantController extends Controller
      */
     public function update(ActualitzarEstudiant $request, Estudiant $estudiant): JsonResponse
     {
-
-            $estudiant = Estudiant::findOrFail($estudiant);
             $estudiant->update($request->validated());
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Estudiant actualitzat correctament',
-                'data' => $estudiant->fresh(),
-            ]);
+        return $this->successResponse(
+            new EstudiantResource($estudiant->fresh()),
+            'Estudiant actualitzat correctament'
+        );
     }
 
     /**
-     * Eliminar un estudiant per ID
-     * DELETE /api/estudiants/{estudiantID}
+     * Eliminar un estudiant (soft delete).
+     * DELETE /api/estudiants/{estudiant}
      */
     public function destroy(Estudiant $estudiant): JsonResponse
     {
-            $estudiant = Estudiant::findOrFail($estudiant);
             $estudiant->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Estudiant eliminat correctament'
-            ]);
+        return $this->successResponse(null, 'Estudiant eliminat correctament');
     }
 }

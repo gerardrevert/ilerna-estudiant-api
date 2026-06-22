@@ -1,4 +1,3 @@
-
 # API d'Estudiants — Prova tècnica iLERNA
 
 Aquest és un projecte senzill d'API REST feta amb Laravel per gestionar un CRUD d'estudiants. L'objectiu de la prova era crear els endpoints bàsics d'un model Estudiant amb els camps obligatoris (nom, email, telèfon) i opcionals (adreça, número de document d'identitat), tot aplicant validacions i una estructura neta.
@@ -98,6 +97,21 @@ curl -X GET http://localhost:8083/api/health
 ```bash
 make down
 ```
+
+
+## Estructura del projecte
+
+- `app/Http/Controllers/EstudiantController.php` — Endpoints del CRUD.
+- `app/Http/Requests/` — Validacions per crear i actualitzar.
+- `app/Http/Resources/EstudiantResource.php` — Format de resposta JSON.
+- `app/Rules/DniNie.php` — Regla personalitzada per validar DNI/NIE.
+- `app/Traits/ApiResponse.php` — Helper per respostes JSON uniformes.
+- `app/Models/Estudiant.php` — Model amb soft deletes.
+- `database/migrations/` — Esquema de la base de dades.
+- `database/factories/EstudiantFactory.php` — Dades de prova.
+- `database/seeders/DatabaseSeeder.php` — Seeder inicial.
+- `tests/Feature/EstudiantApiTest.php` — Tests d'integració.
+- `docker-compose.yml` — Docker amb PHP, Nginx, MySQL i phpMyAdmin.
 
 ---
 
