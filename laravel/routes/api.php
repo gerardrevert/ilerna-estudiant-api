@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/health', function () {
-    return response()->json(['success' => true, 'message' => 'API OK']);
+    return response()->json(['success' => true, 'message' => 'API iLERNA estudiants funciona correctament']);
 });
 
 Route::apiResource('estudiants', EstudiantController::class);

@@ -1,8 +1,108 @@
 
+# API d'Estudiants — Prova tècnica iLERNA
 
+Aquest és un projecte senzill d'API REST feta amb Laravel per gestionar un CRUD d'estudiants. L'objectiu de la prova era crear els endpoints bàsics d'un model Estudiant amb els camps obligatoris (nom, email, telèfon) i opcionals (adreça, número de document d'identitat), tot aplicant validacions i una estructura neta.
 
+Crec que s'han demostrat els punts clau: CRUD complet, validacions per FormRequest, tests d'integració, Docker per aixecar-ho tot de forma automàtica i una resposta JSON uniforme.
 
-/-/-/-/-/-/CHANGELOG/-/-/-/-/-/
+## On està cada cosa
+
+- `laravel/app/Http/Controllers/EstudiantController.php` — Logica dels endpoints.
+- `laravel/app/Http/Requests/` — Validacions per crear i actualitzar.
+- `laravel/app/Models/Estudiant.php` — Model i camps omplibles.
+- `laravel/database/migrations/` — Esquema de la base de dades.
+- `laravel/database/factories/EstudiantFactory.php` — Dades de prova per tests i seeders.
+- `laravel/database/seeders/DatabaseSeeder.php` — Crea 10 estudiants de prova.
+- `laravel/tests/Feature/EstudiantApiTest.php` — Tests del CRUD i validacions.
+- `laravel/docker-compose.yml` — Docker amb PHP, nginx, MySQL i phpMyAdmin.
+- `Makefile` — Comandos per instal·lar i testejar automàticament.
+
+## Requisits
+
+Només cal tenir instal·lat:
+- Docker
+- Docker Compose
+- Make (opcional, però recomanat)
+
+## Instal·lació automàtica
+
+Des de l'arrel del repositori:
+
+```bash
+make install
+```
+
+Això aixeca els contenidors, instal·la dependencies, genera la clau de l'aplicació i executa migracions amb dades de prova.
+
+Un cop acabi:
+- API: http://localhost:8083
+- phpMyAdmin: http://localhost:8082
+
+## Tests
+
+```bash
+make test
+```
+
+## Endpoints principals
+
+| Mètode  |          URL            |           Descripció        |
+|---------|-------------------------|-----------------------------|
+| GET     | `/api/estudiants`       | Llistar tots els estudiants |
+| POST    | `/api/estudiants`       | Crear un estudiant          |
+| GET     | `/api/estudiants/{id}`  | Veure un estudiant          |
+| PUT     | `/api/estudiants/{id}`  | Actualitzar un estudiant    |
+| DELETE  | `/api/estudiants/{id}`  | Eliminar un estudiant       |
+| GET     | `/api/health`           | Endpoint de prova           |
+
+## Proves ràpides amb curl
+
+Després de `make install`, pots provar l'API directament copiant i pegant aquests comandos:
+
+### Llistar tots els estudiants
+```bash
+curl -X GET http://localhost:8083/api/estudiants
+```
+
+### Crear un estudiant
+```bash
+curl -X POST http://localhost:8083/api/estudiants \
+  -H "Content-Type: application/json" \
+  -d '{"nom":"Gerard Revert","email":"gerard@ilerna.com","telefon":"690203376","adreca":"Carrer Major 123","numero_document_identitat":"12345678A"}'
+```
+
+### Veure un estudiant (canvia el 1 per l'id que et retorni)
+```bash
+curl -X GET http://localhost:8083/api/estudiants/1
+```
+
+### Actualitzar un estudiant
+```bash
+curl -X PUT http://localhost:8083/api/estudiants/1 \
+  -H "Content-Type: application/json" \
+  -d '{"nom":"Gerard Actualitzat","email":"gerard@ilerna.com","telefon":"690203376"}'
+```
+
+### Eliminar un estudiant
+```bash
+curl -X DELETE http://localhost:8083/api/estudiants/1
+```
+
+### Endpoint de salut
+```bash
+curl -X GET http://localhost:8083/api/health
+```
+
+## Aturar els contenidors
+
+```bash
+make down
+```
+
+---
+
+# CHANGELOG
+### Es poden revisar tambe els comits a git.
 
 ---
 

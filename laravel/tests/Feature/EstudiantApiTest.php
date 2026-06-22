@@ -207,6 +207,178 @@ class EstudiantApiTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJson(['success' => true]);
-    }    
+    }
+    
+    // ==========================================
+    // GET /api/estudiants/{id} - Mostrar estudiant per id
+    // ==========================================
 
+    #[Test]
+    public function mostrar_un_estudiant_existent(): void
+    {
+        $estudiant = Estudiant::factory()->create([
+            'nom' => 'Gerard Revert',
+            'email' => 'gerard@ilerna.com',
+        ]);
+
+        $response = $this->getJson("/api/estudiants/{$estudiant->id}");
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    'id' => $estudiant->id,
+                    'nom' => 'Gerard Revert',
+                    'email' => 'gerard@ilerna.com',
+                ],
+            ]);
+    }
+
+    #[Test]
+    public function retorna_404_si_el_estudiant_no_existeix(): void
+    {
+        $response = $this->getJson('/api/estudiants/99999');
+
+        $response->assertStatus(404)
+            ->assertJson([
+                'success' => false,
+                'message' => 'Estudiant no trobat',
+            ]);
+    }
+
+    // ==========================================
+    // PUT /api/estudiants/{id} - Actualizar estudiant especific
+    // ==========================================
+
+    #[Test]
+    public function actualitzar_un_estudiant_completament(): void
+    {
+        $estudiant = Estudiant::factory()->create([
+            'nom' => 'Nom Original',
+            'email' => 'original@ilerna.com',
+            'telefon' => '111111111',
+        ]);
+
+        $response = $this->putJson("/api/estudiants/{$estudiant->id}", [
+            'nom' => 'Nom Actualitzat',
+            'email' => 'actualitzacio@ilerna.com',
+            'telefon' => '999999999',
+            'adreca' => 'Nova direccio 456',
+            'numero_document_identitat' => '87654321B',
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'message' => 'Estudiant actualitzat correctament',
+                'data' => [
+                    'nom' => 'Nom Actualitzat',
+                    'email' => 'actualitzacio@ilerna.com',
+                    'telefon' => '999999999',
+                ],
+            ]);
+
+        $this->assertDatabaseHas('estudiants', ['email' => 'actualitzacio@ilerna.com']);
+    }
+
+    #[Test]
+    public function no_pot_actualitzar_parcialment_un_estudiant(): void
+    {
+        $estudiant = Estudiant::factory()->create([
+            'nom' => 'Nom Original',
+            'email' => 'original@ilerna.com',
+            'telefon' => '111111111',
+        ]);
+
+        $response = $this->putJson("/api/estudiants/{$estudiant->id}", [
+            'nom' => 'Nomes nom cambiat',
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    'nom' => 'Nomes nom cambiat',
+                    'email' => 'original@ilerna.com', // No cambia
+                ],
+            ]);
+    }
+
+    #[Test]
+    public function no_pot_actualitzar_amb_email_duplicat_de_un_altre_estudiant(): void
+    {
+        $estudiant1 = Estudiant::factory()->create(['email' => 'estudiant1@ilerna.com']);
+        $estudiant2 = Estudiant::factory()->create(['email' => 'estudiant2@ilerna.com']);
+
+        $response = $this->putJson("/api/estudiants/{$estudiant2->id}", [
+            'email' => 'estudiant1@ilerna.com',
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['email']);
+    }
+
+    #[Test]
+    public function retorna_404_al_actualitzar_estudiant_inexistent(): void
+    {
+        $response = $this->putJson('/api/estudiants/99999', [
+            'nom' => 'Nombre inexistent',
+            'email' => 'nuevo@ilerna.com',
+            'telefon' => '690203376',
+        ]);
+
+        $response->assertStatus(404)
+            ->assertJson([
+                'success' => false,
+                'message' => 'Estudiant no trobat',
+            ]);
+    }
+
+    // ==========================================
+    // DELETE /api/estudiants/{id} - Eliminar estudiants
+    // ==========================================
+
+    #[Test]
+    public function eliminar_un_estudiante(): void
+    {
+        $estudiant = Estudiant::factory()->create();
+
+        $response = $this->deleteJson("/api/estudiants/{$estudiant->id}");
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'message' => 'Estudiant eliminat correctament',
+            ]);
+
+        $this->assertDatabaseMissing('estudiants', ['id' => $estudiant->id]);
+    }
+
+    #[Test]
+    public function retorna_404_al_eliminar_estudiant_inexistent(): void
+    {
+        $response = $this->deleteJson('/api/estudiants/99999');
+
+        $response->assertStatus(404)
+            ->assertJson([
+                'success' => false,
+                'message' => 'Estudiant no trobat.',
+            ]);
+    }
+
+    // ==========================================
+    // Health Check per poder fer pings
+    // ==========================================
+
+    #[Test]
+    public function health_check_basic(): void
+    {
+        $response = $this->getJson('/api/health');
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'message' => 'API iLERNA estudiants funciona correctament',
+            ]);
+    }    
 }

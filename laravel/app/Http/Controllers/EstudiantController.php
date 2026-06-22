@@ -47,31 +47,24 @@ class EstudiantController extends Controller
      * Mostrar un estudiant especific
      * GET /api/estudiants/{estudiantID}
      */
-    public function show(int $estudiant): JsonResponse
+    public function show(Estudiant $estudiant): JsonResponse
     {
-        try {
             $estudiant = Estudiant::findOrFail($estudiant);
 
             return response()->json([
                 'success' => true,
                 'data' => $estudiant,
             ]);
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Estudiant no trobat',
-            ], 404);
-        }
     }
 
     /**
      * Actualitzar un estudiant existent per ID
      * PUT /api/estudiants/{estudiantID}
      */
-    public function update(ActualitzarEstudiant $request, int $estudiantID): JsonResponse
+    public function update(ActualitzarEstudiant $request, Estudiant $estudiant): JsonResponse
     {
-        try {
-            $estudiant = Estudiant::findOrFail($estudiantID);
+
+            $estudiant = Estudiant::findOrFail($estudiant);
             $estudiant->update($request->validated());
 
             return response()->json([
@@ -79,33 +72,20 @@ class EstudiantController extends Controller
                 'message' => 'Estudiant actualitzat correctament',
                 'data' => $estudiant->fresh(),
             ]);
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Estudiant no trobat',
-            ], 404);
-        }
     }
 
     /**
      * Eliminar un estudiant per ID
      * DELETE /api/estudiants/{estudiantID}
      */
-    public function destroy(int $estudiantID): JsonResponse
+    public function destroy(Estudiant $estudiant): JsonResponse
     {
-        try {
-            $estudiant = Estudiant::findOrFail($estudiantID);
+            $estudiant = Estudiant::findOrFail($estudiant);
             $estudiant->delete();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Estudiant eliminat correctament'
             ]);
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Estudiant no trobat.',
-            ], 404);
-        }
     }
 }

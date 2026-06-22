@@ -1,0 +1,22 @@
+# Entorn
+.env
+.env.backup
+.env.production
+
+# Dependències
+vendor/
+node_modules/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Sistema operatiu
+.DS_Store
+Thumbs.db
+
+# Logs i cachés
+*.log
+.phpunit.result.cache

@@ -26,11 +26,11 @@ class ActualitzarEstudiant extends FormRequest
         $id = $this->route('estudiant');
 
         return [
-            'nom' => ['sometimes', 'required ', 'string', 'min:5', 'max:59'],
+            'nom' => ['sometimes', 'required', 'string', 'min:5', 'max:59'],
             'email' => ['sometimes','required', 'email', 'max:255', Rule::unique('estudiants', 'email')->ignore($id)],
             'telefon' => ['sometimes', 'required' ,'string', 'max:20'],
             'adreca' => ['nullable', 'string', 'max:255'],
-            'numero_document_identitat' => ['nullable', 'string', 'max:50', Rule::unique('estudiants', 'numero_documento_identidad')->ignore($id)],
+            'numero_document_identitat' => ['nullable', 'string', 'max:50', Rule::unique('estudiants', 'numero_document_identitat')->ignore($id)],
         ];
     }
 }
