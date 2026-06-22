@@ -12,5 +12,8 @@ install:
 test:
 	cd laravel && docker compose exec -T app php artisan test
 
+migrate:
+	cd laravel && docker compose exec -T app php artisan migrate
+
 down:
 	cd laravel && docker compose down

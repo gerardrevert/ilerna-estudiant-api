@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('adreca')->nullable();
             $table->string('numero_document_identitat', 20)->nullable()->unique();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

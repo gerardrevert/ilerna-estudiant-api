@@ -8,15 +8,41 @@ use App\Http\Resources\EstudiantResource;
 use App\Models\Estudiant;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OA;
 
+#[OA\Info(
+    version: '1.0.0',
+    title: 'API Estudiants iLERNA',
+    description: 'API REST per a la gestió d\'estudiants de iLERNA. CRUD amb validacions, paginació i soft deletes.'
+)]
+#[OA\Server(url: '/api', description: 'Servidor local')]
 class EstudiantController extends Controller
 {
     use ApiResponse;
 
     /**
      * Llistar tots els estudiants (paginats).
-     * GET /api/estudiants
      */
+    #[OA\Get(
+        path: '/estudiants',
+        operationId: 'llistarEstudiants',
+        tags: ['Estudiants'],
+        summary: 'Llistar tots els estudiants',
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Llista paginada d\'estudiants',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: true),
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/Estudiant')),
+                        new OA\Property(property: 'count', type: 'integer', example: 20),
+                        new OA\Property(property: 'meta', type: 'object'),
+                    ]
+                )
+            ),
+        ]
+    )]
     public function index(): JsonResponse
     {
         $estudiants = Estudiant::paginate(20);
