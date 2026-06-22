@@ -64,9 +64,41 @@ class EstudiantController extends Controller
     }
 
     /**
-     * Crear un nou estudiant
-     * POST /api/estudiants
+     * Crear un nou estudiant.
      */
+    #[OA\Post(
+        path: '/estudiants',
+        operationId: 'crearEstudiant',
+        tags: ['Estudiants'],
+        summary: 'Crear un nou estudiant',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['nom', 'email', 'telefon'],
+                properties: [
+                    new OA\Property(property: 'nom', type: 'string', minLength: 5, maxLength: 59, example: 'Nom Exemple'),
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'exemple@ilerna.com'),
+                    new OA\Property(property: 'telefon', type: 'string', example: '690203376'),
+                    new OA\Property(property: 'adreca', type: 'string', nullable: true, example: 'Carrer Major 123'),
+                    new OA\Property(property: 'numero_document_identitat', type: 'string', nullable: true, example: '12345678Z'),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: 'Estudiant creat',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Estudiant creat correctament'),
+                        new OA\Property(property: 'data', ref: '#/components/schemas/Estudiant'),
+                    ]
+                )
+            ),
+            new OA\Response(response: 422, description: 'Error de validació'),
+        ]
+    )]
     public function store(CrearEstudiant $request): JsonResponse
     {
         $estudiant = Estudiant::create($request->validated());
@@ -79,9 +111,30 @@ class EstudiantController extends Controller
     }
 
     /**
-     * Mostrar un estudiant especific
-     * GET /api/estudiants/{estudiantID}
+     * Mostrar un estudiant específic.
      */
+    #[OA\Get(
+        path: '/estudiants/{id}',
+        operationId: 'mostrarEstudiant',
+        tags: ['Estudiants'],
+        summary: 'Mostrar un estudiant per ID',
+        parameters: [
+            new OA\Parameter(name: 'id', in: 'path', required: true, description: 'ID de l\'estudiant', schema: new OA\Schema(type: 'integer')),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Estudiant trobat',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'success', type: 'boolean', example: true),
+                        new OA\Property(property: 'data', ref: '#/components/schemas/Estudiant'),
+                    ]
+                )
+            ),
+            new OA\Response(response: 404, description: 'Estudiant no trobat'),
+        ]
+    )]
     public function show(Estudiant $estudiant): JsonResponse
     {
         return $this->successResponse(new EstudiantResource($estudiant));
