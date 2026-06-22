@@ -120,6 +120,18 @@ make down
 
 ---
 
+Afegir validacios del DNI i telefon als testos per incloure un regex de format
+
+---
+
+Millores al model per created at i controlador reutilitzan resources en comptes de resposta hardcodejada
+
+---
+
+Neteja general de codi (eliminar codi redundant com try catch i pasar-ho al app) i implementacio de instalacio automatica amb makefile i documentacio.
+
+---
+
 Els testos de validacio de dades ja son tots correctes ara nomes queden els testos de estudiants especifics
 
 ---

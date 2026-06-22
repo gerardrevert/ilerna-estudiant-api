@@ -4,9 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Estudiant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
 
 class EstudiantApiTest extends TestCase
 {
@@ -56,7 +55,7 @@ class EstudiantApiTest extends TestCase
             'email' => 'gerardrevert@ilerna.com',
             'telefon' => '690203376',
             'adreca' => 'Calle Mayor 123, Balaguer',
-            'numero_document_identitat' => '12345678A',
+            'numero_document_identitat' => '12345678Z',
         ];
 
         $response = $this->postJson('/api/estudiants', $data);
@@ -208,7 +207,34 @@ class EstudiantApiTest extends TestCase
         $response->assertStatus(201)
             ->assertJson(['success' => true]);
     }
-    
+
+    #[Test]
+    public function no_pot_crear_estudiant_amb_telefon_invalid(): void
+    {
+        $response = $this->postJson('/api/estudiants', [
+            'nom' => 'Gerard Revert',
+            'email' => 'test@ilerna.com',
+            'telefon' => '123456789', // No comença per 6, 7, 8 o 9
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['telefon']);
+    }
+
+    #[Test]
+    public function no_pot_crear_estudiant_amb_dni_invalid(): void
+    {
+        $response = $this->postJson('/api/estudiants', [
+            'nom' => 'Gerard Revert',
+            'email' => 'test@ilerna.com',
+            'telefon' => '690203376',
+            'numero_document_identitat' => '12345678A', // Lletra incorrecta
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['numero_document_identitat']);
+    }
+
     // ==========================================
     // GET /api/estudiants/{id} - Mostrar estudiant per id
     // ==========================================
@@ -264,7 +290,7 @@ class EstudiantApiTest extends TestCase
             'email' => 'actualitzacio@ilerna.com',
             'telefon' => '999999999',
             'adreca' => 'Nova direccio 456',
-            'numero_document_identitat' => '87654321B',
+            'numero_document_identitat' => '87654321X',
         ]);
 
         $response->assertStatus(200)
@@ -282,7 +308,7 @@ class EstudiantApiTest extends TestCase
     }
 
     #[Test]
-    public function no_pot_actualitzar_parcialment_un_estudiant(): void
+    public function pot_actualitzar_parcialment_un_estudiant(): void
     {
         $estudiant = Estudiant::factory()->create([
             'nom' => 'Nom Original',
@@ -351,7 +377,7 @@ class EstudiantApiTest extends TestCase
                 'message' => 'Estudiant eliminat correctament',
             ]);
 
-        $this->assertDatabaseMissing('estudiants', ['id' => $estudiant->id]);
+        $this->assertSoftDeleted('estudiants', ['id' => $estudiant->id]);
     }
 
     #[Test]
@@ -362,7 +388,7 @@ class EstudiantApiTest extends TestCase
         $response->assertStatus(404)
             ->assertJson([
                 'success' => false,
-                'message' => 'Estudiant no trobat.',
+                'message' => 'Estudiant no trobat',
             ]);
     }
 
@@ -380,5 +406,5 @@ class EstudiantApiTest extends TestCase
                 'success' => true,
                 'message' => 'API iLERNA estudiants funciona correctament',
             ]);
-    }    
+    }
 }
