@@ -120,6 +120,27 @@ make down
 
 ---
 
+Tests integrats amb CI amb github action per  automatitzacions de proves i control de calitat.
+
+---
+
+Fer servir variables d'entorn a docker-compose per evitar injectar credencials.
+
+---
+
+Filtre de api trait per unificat totes les respostes en casos de exit i error sempre dona resposta estructurada
+
+---
+
+Filtre i generador de DNI , tambe llimpiesa de codi als requests i implementacio del generador dni i filtre telefon
+
+---
+
+Millora de codi, he creat el resource de estudiant, aixi  nomes retorna la estructura de json valida actuant com a primer filtre.
+
+
+---
+
 Canviar les migracions per tenir limits al telefon, al dni, i permetre softdeletes seguin amb la millora de codi dels testos
 
 ---
