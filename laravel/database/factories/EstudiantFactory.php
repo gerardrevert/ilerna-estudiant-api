@@ -18,9 +18,32 @@ class EstudiantFactory extends Factory
         return [
             'nom' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'telefon' => fake()->phoneNumber(),
+            'telefon' => $this->generarTelefon(),
             'adreca' => fake()->optional()->address(),
-            'numero_document_identitat' => fake()->optional()->bothify('########?'),
+            'numero_document_identitat' => fake()->optional(0.8)->passthrough($this->generarDni()),
         ];
+    }
+
+    /**
+     * Genera un telèfon espanyol de 9 dígits vàlid.
+     */
+    private function generarTelefon(): string
+    {
+        $prefixos = [6, 7, 8, 9];
+        $prefix = fake()->randomElement($prefixos);
+
+        return $prefix.fake()->numerify('########');
+    }
+
+    /**
+     * Genera un DNI espanyol amb la lletra correcta.
+     */
+    private function generarDni(): string
+    {
+        $numero = fake()->numberBetween(10000000, 99999999);
+        $lletres = 'TRWAGMYFPDXBNJZSQVHLCKE';
+        $lletra = $lletres[$numero % 23];
+
+        return $numero.$lletra;
     }
 }
