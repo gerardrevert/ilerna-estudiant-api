@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('nom', 60);
             $table->string('email')->unique();
-            $table->string('telefon');
+            $table->string('telefon', 20);
             $table->string('adreca')->nullable();
-            $table->string('numero_document_identitat')->nullable();
+            $table->string('numero_document_identitat', 20)->nullable()->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

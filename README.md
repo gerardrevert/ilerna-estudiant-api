@@ -120,6 +120,10 @@ make down
 
 ---
 
+Canviar les migracions per tenir limits al telefon, al dni, i permetre softdeletes seguin amb la millora de codi dels testos
+
+---
+
 Afegir validacios del DNI i telefon als testos per incloure un regex de format
 
 ---
