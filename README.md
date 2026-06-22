@@ -6,6 +6,47 @@
 
 ---
 
+Els testos de validacio de dades ja son tots correctes ara nomes queden els testos de estudiants especifics
+
+---
+
+llistar un estudiant especific, Actualitzar i borra funciona, els testos nous de actualitzar i borrar tambe pasen 
+
+
+api/estudiants/1
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "nom": "gerard",
+    "email": "gerard@ilerna.com",
+    "telefon": "690203376",
+    "adreca": "Carrer Major",
+    "numero_document_identitat": "12345678A",
+    "created_at": "2026-06-21T23:36:39.000000Z",
+    "updated_at": "2026-06-21T23:44:39.000000Z"
+  }
+}
+
+Estudiant actualitzat
+{
+  "success": true,
+  "message": "Estudiant actualitzat correctament",
+  "data": {
+    "id": 1,
+    "nom": "gerard revert",
+    "email": "gerard@ilerna.com",
+    "telefon": "690203376",
+    "adreca": "Carrer Major",
+    "numero_document_identitat": "12345678A",
+    "created_at": "2026-06-21T23:36:39.000000Z",
+    "updated_at": "2026-06-21T23:43:55.000000Z"
+  }
+}
+
+
+--- 
+
 Controladors acabats
 
 ---
