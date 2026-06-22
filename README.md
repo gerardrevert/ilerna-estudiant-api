@@ -1,10 +1,16 @@
 # API d'Estudiants — Prova tècnica iLERNA
 
-![Tests](https://github.com/gerardrevert/ilerna-estudiant-api/actions/workflows/tests.yml)
+[![Tests](https://github.com/gerardrevert/ilerna-estudiant-api/actions/workflows/tests.yml/badge.svg)](https://github.com/gerardrevert/ilerna-estudiant-api/actions/workflows/tests.yml)
 
 API REST desenvolupada amb Laravel per gestionar un CRUD d'estudiants. Inclou validacions, paginació, soft deletes, tests d'integració, documentació OpenAPI/Swagger i un pipeline de CI/CD amb GitHub Actions.
 
-> **Prioritat de qualitat:** cada push i pull request passa automàticament pels tests i per la revisió d'estil de Laravel Pint. Pots comprovar-ho a la pestanya *Actions* del repositori fen pull, push.
+El que he prioritzat:
+**Codi net i mantenible:** he separat validacions en FormRequests, he centralitzat els 404/422 a bootstrap/app.php i he usat route model binding per no repetir findOrFail per tot arreu.
+**Validacions de negoci:** a més de les bàsiques, he afegit validació de telèfon espanyol i una regla pròpia per al DNI/NIE que comprova fins i tot la lletra.
+**Paginació i soft deletes:** el listat està paginat i els eliminats són soft deletes, que per un CRM em sembla imprescindible.
+**Documentació:** he integrat Swagger amb OpenAPI, accessible a /api/documentation, així qualsevol equip pot veure els endpoints sense haver de mirar codi.
+**CI/CD:** he muntat un workflow de GitHub Actions que executa tests automàticament, genera la documentació i passa Laravel Pint en cada push i pull request.
+**Procés transparent:** he deixat un DEVLOG.md amb el procés real de desenvolupament, perquè quedi clar que s'ha anat construint pas a pas.
 
 ## Requisits
 
