@@ -4,7 +4,9 @@ install:
 	cd laravel && docker compose exec -T app composer install
 	cd laravel && docker compose exec -T app php artisan key:generate
 	cd laravel && docker compose exec -T app php artisan migrate --seed
+	cd laravel && docker compose exec -T app php artisan l5-swagger:generate
 	@echo "API disponible a: http://localhost:8083"
+	@echo "Documentació Swagger: http://localhost:8083/api/documentation"
 	@echo "phpMyAdmin disponible a: http://localhost:8082"
 
 test:
